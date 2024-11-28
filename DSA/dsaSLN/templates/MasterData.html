@@ -1,0 +1,82 @@
+{% extends 'DsaDashboard.html' %}
+
+{% block Extrascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+{% endblock %}
+
+{% block content1 %}
+
+
+<div class="table-container">
+    <table id="excelTable" class=" table table-striped"></table>
+</div>
+
+<script>
+   const fileUrl = "{{ result.MasterDataImage }}"; 
+
+   fetch(fileUrl)
+       .then(response => response.arrayBuffer())
+       .then(data => {
+           const workbook = XLSX.read(data, { type: "array" });
+           const sheetName = workbook.SheetNames[0];
+           const worksheet = workbook.Sheets[sheetName];
+           const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+           // Build custom table with styling
+           const table = document.getElementById("excelTable");
+           jsonData.forEach((row, rowIndex) => {
+               const tr = document.createElement("tr");
+               row.forEach(cellData => {
+                   const cell = rowIndex === 0 ? document.createElement("th") : document.createElement("td");
+                   cell.textContent = cellData;
+                   tr.appendChild(cell);
+               });
+               table.appendChild(tr);
+           });
+       })
+       .catch(error => console.error("Error loading file:", error));
+</script>
+
+<style>
+    /* Style the table container */
+    .table-container {
+        max-width: 90%;
+        margin: auto;
+        overflow-x: auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+
+    /* Style the table */
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        text-align: left;
+    }
+
+    .styled-table th, .styled-table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+    }
+
+    .styled-table th {
+        background-color: #009879;
+        color: #ffffff;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .styled-table tr:nth-child(even) {
+        background-color: #f3f3f3;
+    }
+
+    .styled-table tr:hover {
+        background-color: #f1f1f1;
+    }
+</style>
+
+
+{% endblock %}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .back-button {
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .back-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="history.back()">Back</button>
+    
+    <h2>Employee List</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>Username</th>
+                <th>Employee Type</th>
+                <th>Franchise Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+                <tr>
+                    <td>{{ employee.employee_id }}</td>
+                    <td>{{ employee.username }}</td>
+                    <td>{{ employee.password}}</td>
+                    <td>{{ employee.employee_type }}</td>
+                    <td>{{ employee.franchisecode }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

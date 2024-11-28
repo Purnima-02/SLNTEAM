@@ -1,0 +1,84 @@
+<!-- hrdsaviews.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>DSA Employee List</title>
+    <style>
+        .back-button {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        .back-button:hover {
+            color: #007bff; /* Change color on hover */
+        }
+    </style>
+
+</head>
+<body>
+    <a href="javascript:void(0);" onclick="window.history.back();" class="back-button">← Back</a>
+    <h1 class="text-center">DSA Employee List</h1>
+
+    <!-- Table container aligned to the left -->
+    <div class="container-fluid">
+        <table class="table table-striped table-bordered table-responsive">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>DSA ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>PAN</th>
+                    <th>Aadhar</th>
+                    <th>Profession</th>
+                    <th>City</th>
+                    <th>Account Number</th>
+                    <th>Account Holder Name</th>
+                    <th>Bank Name</th>
+                    <th>IFSC Code</th>
+                    <th>Branch Name</th>
+                    <th>Agreement</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in branch %}
+                <tr>
+                    <td>{{ employee.id }}</td>
+                    <td>{{ employee.dsa_registerid }}</td>
+                    <td>{{ employee.dsa_name }}</td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.phone }}</td>
+                    <td>{{ employee.pan }}</td>
+                    <td>{{ employee.aadhar }}</td>
+                    <td>{{ employee.profession }}</td>
+                    <td>{{ employee.city }}</td>
+                    <td>{{ employee.acc_number }}</td>
+                    <td>{{ employee.acc_holder_name }}</td>
+                    <td>{{ employee.bank_name }}</td>
+                    <td>{{ employee.ifsc_code }}</td>
+                    <td>{{ employee.branch_name }}</td>
+                    <td>{{ employee.agreeCheck|yesno:"Yes,No" }}</td>
+                    <td>
+                        <form action="{% url 'dsa_approve' employee.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success">Approve</button>
+                        </form>
+                        <form action="{% url 'dsa_reject' employee.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>  
+    </div>
+</body>
+</html>

@@ -1,0 +1,217 @@
+
+
+<div class="fileWrapper mt-5 py-5">
+    <p class="fw-bold display-6">Franchise Total Amount</p>
+
+    <div class="row mt-5 gy-4">
+
+        <div class="col-md-6 col-12">
+          <form class="d-flex px-3" method="post" id="Franchisesearch-form">
+              {% csrf_token %}
+      <input class="form-control me-2 fraapplicationValue" name="fraapplicationid" type="search" placeholder="Search By Id.." aria-label="Search">
+      <button class="btn btn-outline-primary" type="submit" id="fraserachButton">Search</button>
+      </form>
+      </div>
+      
+        <div class="col-md-6 col-12">
+          <form class="d-flex px-3" method="post" id="FranchiseserachForm2">
+              {% csrf_token %}
+       <input type="text" name="date" id="fradaterange" class="form-control w-100 me-2 fradateValue" placeholder="Please Select Your Date Range.."/>
+      <button class="btn btn-outline-primary" type="submit" id="fraserachButton2">Search</button>
+      </form>
+      </div>
+          </div>
+
+    <div class="table-responsive mt-3"><!--row-->
+        <table class="table" id="myTableCopy">
+           <thead>
+               <tr>
+                   <th>Sno</th>
+                   <th>Franchise Id</th>
+                   <th>Total Franchise Amount</th>
+                   <th>Total Loans</th>
+                   <th>Total Credit Cards</th>
+                   <th>Total Insurances</th>
+               </tr>
+           </thead>
+    
+           <tbody>
+    
+            {% for item in objectsCopy %}
+             
+            <tr>
+            <td>{{ forloop.counter0|add:start_indexCopy }}</td>
+            <td>{{item.registerId}}</td>
+            <td>{{item.TotalFranchiseAmount}}</td>  
+            <td>{{item.TotalLoans}}</td>   
+            <td>{{item.TotalCC}}</td>   
+            <td>{{item.TotalInsurances}}</td>    
+             
+    
+        </tr>
+          
+        {% empty %}
+        <tr>
+            <td colspan="2">No records found</td>
+        </tr>
+           
+             
+           {% endfor %}
+        
+           </tbody>
+    
+    
+          
+           
+           
+       </table>
+       </div>
+
+
+       <div class="wrapper d-flex justify-content-around">
+        <p class="fw-bold totalsum2">Total Amount: ₹ {{sumofAllTotalAmount}}</p>
+        </div>
+       
+
+
+    <!-- Pagination links -->
+   <div class="paginationCopy row">
+    <button type="button" class="btn btn-danger col-3 col-md-2 ms-auto" onclick="showAllfranchiseAmounts()">Show All</button>
+    <div class="col-12 d-flex justify-content-center">
+       
+    <span class="step-links d-flex ms-5">
+        {% if objectsCopy.has_previous %}
+        <a href="?pagecopy=1" class="page-link fw-bold bg-success text-white text-capitalize me-2 numberCopy"> first</a>
+        <a href="?pagecopy={{ objectsCopy.previous_page_number }}"  class="page-link numberCopy">previous</a>
+        {% endif %}
+
+
+        
+        {% if objectsCopy.number >= objectsCopy.paginator.num_pages|add:'-2' and objectsCopy.paginator.num_pages|add:'-2' != 1 and objectsCopy.paginator.num_pages >= 3 %}
+        <span class="nav-link fw-bold">...</span>
+        {% endif %}
+
+        
+
+       
+
+        {% for num in objectsCopy.paginator.page_range %}
+
+        {% if objectsCopy.number == objectsCopy.paginator.num_pages and num >=  objectsCopy.number|add:'-2' %}
+            
+        <a href="?pagecopy={{ num }}" class="nav-link numberCopy {{num}} ms-1">{{ num }}</a>
+
+       {% elif num >= objectsCopy.number and num <= objectsCopy.number|add:'2' and objectsCopy.number|add:'2' <= objectsCopy.paginator.num_pages   %}
+       <a href="?pagecopy={{ num }}" class="nav-link numberCopy {{num}} ms-1" >{{ num }}</a>
+            {% if num ==  objectsCopy.number|add:'2' and num != objectsCopy.paginator.num_pages %}
+            <span class="nav-link fw-bold">...</span>
+                
+            {% endif %}
+       {% elif objectsCopy.number|add:'2' > objectsCopy.paginator.num_pages and num >= objectsCopy.number|add:'-1' and num <= objectsCopy.paginator.num_pages %}
+       <a href="?pagecopy={{ num }}" class="nav-link numberCopy {{num}} ms-1">{{ num }}</a>
+
+       {% endif %}
+{% endfor %}
+
+
+
+
+
+        <!-- <p>{{objects.paginator.num_pages}}</p> -->
+
+       
+
+        {% if objectsCopy.has_next %}
+        <a href="?pagecopy={{ objectsCopy.next_page_number }}"  class="page-link numberCopy">next</a>
+        <a href="?pagecopy={{ objectsCopy.paginator.num_pages }}"  class="page-link numberCopy bg-danger text-white fw-bold text-capitalize ms-2">last</a>
+    {% endif %} 
+    </span>
+</div>
+</div>
+
+<script>
+
+if(document.querySelector('#fraserachButton2')){
+document.querySelector('#fraserachButton2').addEventListener('click', searchTrigger2Copy);
+document.querySelector('#fraserachButton').addEventListener('click', searchTriggerCopy);
+}
+</script>
+
+<script class="tableScripteedCopy">
+
+console.log("Url search..");
+        var currentPage={{objectsCopy.number}};
+   
+        document.querySelectorAll('.numberCopy').forEach((page)=>{
+        
+          
+         var pages= page.classList[2];
+         if(pages==currentPage){
+          // console.log(pages+"Current PAge........");
+           getFref=page.getAttribute('href');
+           console.log(getFref);
+           
+          
+           console.log("fetched");
+          page.classList.add('page-active');
+         }else{
+          page.classList.remove('page-active')
+         }
+       });
+</script>
+
+<script>
+
+    $(document).ready(function () {
+                $('#fradaterange').daterangepicker({
+                    applyButtonClasses: 'btn btn-primary',
+                    cancelButtonClasses: 'btn btn-danger',
+                    opens: 'right',
+                    locale: {
+                        format: 'YYYY-MM-DD',
+                        separator: ' to ', 
+                        cancelLabel: 'Cancel',  
+                        applyLabel: 'OK'
+                        
+                    },
+            
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    },
+                    autoUpdateInput: false,  // Prevent automatic update of the input with the selected date
+                    showDropdowns: true,     // Show dropdowns for year and month selection
+                    showWeekNumbers: true,   // Show week numbers in the calendar
+                    autoApply: false,        // Require users to click Apply/OK to confirm the selection
+                }, function (start, end, label) {
+                    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                });
+            
+                // Event listener for Apply (OK) button
+                $('#fradaterange').on('apply.daterangepicker', function (ev, picker) {
+                    $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+                    console.log("Apply clicked: " + $(this).val());
+                });
+            
+                // Event listener for Cancel button
+                $('#fradaterange').on('cancel.daterangepicker', function (ev, picker) {
+                    $(this).val('');  // Clear the input field on cancel
+                    console.log("Cancel clicked: Input cleared");
+                });
+            
+                // Event listener for any change in the Date Range Picker
+                $('#fradaterange').on('apply.daterangepicker change', function() {
+                    console.log("Input value changed to: " + this.value);
+                });
+            });
+        
+    </script>
+    
+
+
+
+ 

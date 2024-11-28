@@ -1,0 +1,671 @@
+{% extends 'Dashboard.html' %}
+
+{% block Extrascripts %}
+
+<!-- Moment.js -->
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+<!-- Date Range Picker CSS -->
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+/>
+
+<!-- Date Range Picker JS -->
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
+{% endblock %}
+
+{% block content2 %}
+
+<style>
+   .inside-card {
+    position: relative;
+    transition: transform 0.3s ease-in-out;  
+}
+
+.inside-card:hover {
+    transform: translateY(-3px); 
+    cursor: pointer;
+}
+
+
+    
+</style>
+
+
+<!-- ..............Total Business AMount..................... -->
+<div class="row mt-5 px-3 mb-5">
+
+    <div class="col-md-6 col-12 mb-3">
+        <form class="d-flex px-3" action="" method="post" id="serachForm2">
+            {% csrf_token %}
+     <input type="text" name="date1" id="daterange" class="form-control w-100 me-2 dateValue" placeholder="Please Select Your Date Range.."/>
+    <button class="btn btn-outline-primary" type="submit" id="serachButton2">Search</button>
+    </form>
+    </div>
+
+    <div class="card shadow-lg">
+        <div class="card-body">
+        <div class="col-12 bg-success text-white">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column">
+                    <p class="title fw-bold display-5">Total SLN Business Amount</p>
+                    <p class="fw-bold display-6">₹ {{slnTotalbusiness}}</p>
+                </div>
+          
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row mt-5 px-3">
+
+    <div class="card shadow-lg">
+        <div class="card-body">
+        <div class="col-12 bg-danger text-white">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column">
+                    <p class="title fw-bold display-6">Total HO Amount</p>
+                    <p class="fw-bold display-6">₹ {{onlyMainOfficeAmount}}</p>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- ............................Total Franchise,DSA,Sales Total Amount........................... -->
+<div class="row my-5 ">
+
+    <div class="col-12"> 
+    <div class="card shadow">
+
+        <div class="card-body row gy-2">
+
+            <!-- 1st -->
+        <div class="col-12 col-md-4">
+
+            <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-dark">
+            <p class="title fw-bold">Except Main Branch Amount</p>
+
+            <p class="fw-bold" style="font-size: 20px;">₹ {{allFranchiseAmountexceptMainBranch}}</p>
+            </div>
+
+        </div>
+        <!-- 1st -->
+
+
+            <!-- 2nd -->
+            <div class="col-12 col-md-4">
+
+                <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-primary">
+                <p class="title fw-bold">Total DSA's Amount</p>
+    
+                <p class="fw-bold" style="font-size: 20px;">₹ {{dsaTotalAmount}}</p>
+                </div>
+    
+            </div>
+            <!-- 2nd -->
+
+
+             <!-- 3rd -->
+             <div class="col-12 col-md-4">
+
+                <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-secondary">
+                <p class="title fw-bold ">Total SALE's Amount</p>
+    
+                <p class="fw-bold" style="font-size: 20px;">₹ {{salesTotalAmount}}</p>
+                </div>
+    
+            </div>
+            <!-- 3rd -->
+  
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+<!-- ............................Total Franchise,DSA,Sales Employees Count........................... -->
+<div class="row mt-2 mb-5">
+
+    <div class="col-12"> 
+    <div class="card shadow">
+
+        <div class="card-body row gy-2">
+
+            <!-- 1st -->
+        <div class="col-12 col-md-4">
+
+            <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-dark">
+            <p class="title fw-bold">Total Franchise's</p>
+
+            <p class="fw-bold" style="font-size: 20px;">{{totalFranchisesCount}}</p>
+            </div>
+
+        </div>
+        <!-- 1st -->
+
+
+            <!-- 2nd -->
+            <div class="col-12 col-md-4">
+
+                <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-primary">
+                <p class="title fw-bold">Total DSA's</p>
+    
+                <p class="fw-bold" style="font-size: 20px;">{{totalDSACount}}</p>
+                </div>
+    
+            </div>
+            <!-- 2nd -->
+
+
+             <!-- 3rd -->
+             <div class="col-12 col-md-4">
+
+                <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-secondary">
+                <p class="title fw-bold ">Total SALE's</p>
+    
+                <p class="fw-bold" style="font-size: 20px;">{{totalSalesCount}}</p>
+                </div>
+    
+            </div>
+            <!-- 3rd -->
+  
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+<!-- .............................Total DSA And Sales Count In MAin Branch....................... -->
+<div class="row mt-2 mb-5">
+
+    <div class="col-12"> 
+    <div class="card shadow">
+
+        <div class="card-body row gy-2">
+
+         
+
+
+            <!-- 1st -->
+            <div class="col-12 col-md-6">
+
+                <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-info">
+                <p class="title fw-bold">Total DSA's HO</p>
+    
+                <p class="fw-bold" style="font-size: 20px;">{{mainBranchDsaIds}}</p>
+                </div>
+    
+            </div>
+            <!-- 1st -->
+
+
+             <!-- 2nd -->
+             <div class="col-12 col-md-6">
+
+                <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-secondary">
+                <p class="title fw-bold ">Total SALE's HO</p>
+    
+                <p class="fw-bold" style="font-size: 20px;">{{mainBranchSalesIds}}</p>
+                </div>
+    
+            </div>
+            <!-- 2nd -->
+  
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+
+<!-- .............................Total HO DSA And Sales Amount In MAin Branch....................... -->
+<div class="row mt-2 mb-5">
+
+    <div class="col-12"> 
+    <div class="card shadow">
+
+        <div class="card-body row gy-2">
+
+         
+
+
+            <!-- 1st -->
+            <div class="col-12 col-md-6">
+
+                <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-danger">
+                <p class="title fw-bold">Total DSA's HO Amount</p>
+    
+                <p class="fw-bold" style="font-size: 20px;">{{mainBranchdsaAmount}}</p>
+                </div>
+    
+            </div>
+            <!-- 1st -->
+
+
+             <!-- 2nd -->
+             <div class="col-12 col-md-6">
+
+                <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-dark">
+                <p class="title fw-bold ">Total SALE's HO Amount</p>
+    
+                <p class="fw-bold" style="font-size: 20px;">{{mainBranchSalesAmount}}</p>
+                </div>
+    
+            </div>
+            <!-- 2nd -->
+  
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="row">
+
+
+    <div class="col-md-6 col-12 mb-3">
+        <form class="d-flex px-3" action="" method="post" id="serachForm1">
+            {% csrf_token %}
+     <input type="text" name="date2" id="daterange2" class="form-control w-100 me-2 dateValue1" placeholder="Please Select Your Date Range.."/>
+    <button class="btn btn-outline-primary" type="submit">Search</button>
+    </form>
+    </div>
+
+
+    <div class="col-12 mt-3"> <!--Colum12-->
+    
+        <div class="card shadow"><!--Main Card-->
+    
+    
+    
+            <div class="card-body row gy-2"><!--Card-Body-->
+    
+    
+    
+               <!--Starts 1st card-->
+    
+                <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-success d-flex justify-content-center align-items-center flex-column text-white">
+    
+                        <p class="title fw-bold">Total Applications</p>
+    
+                        <p class="fw-bold">{{totalApplications}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+    
+                
+               <!--Starts 1st card-->
+    
+               
+    
+               
+               <!--Starts 2nd card-->
+    
+               <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-danger d-flex justify-content-center align-items-center flex-column text-white">
+    
+                        <p class="title fw-bold">Business Loan Applications</p>
+    
+                        <p class="fw-bold">{{businessLength}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+                <!--Starts 2nd card-->
+    
+    
+    
+                <!--Starts 3rd card-->
+    
+               <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-secondary d-flex justify-content-center align-items-center flex-column text-white">
+    
+                        <p class="title fw-bold">Personal Loan Applications</p>
+    
+                        <p class="fw-bold">{{personalLength}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+                <!--Starts 3rd card-->
+    
+    
+                 <!--Starts 4rth card-->
+    
+               <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-black d-flex justify-content-center align-items-center flex-column text-white">
+    
+                         <p class="title fw-bold">Education Loan Applications</p>
+    
+                        <p class="fw-bold">{{EducationLength}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+                <!--Starts 4rth card-->
+    
+    
+                 <!--Starts 5th card-->
+    
+               <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-secondary d-flex justify-content-center align-items-center flex-column text-white">
+    
+                        <p class="title fw-bold">Home Loan Applications</p>
+    
+                        <p class="fw-bold">{{homeLength}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+                <!--Starts 5th card-->
+    
+    
+                 <!--Starts 6th card-->
+    
+               <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-success d-flex justify-content-center align-items-center flex-column text-white">
+    
+                        <p class="title fw-bold">LAP Applications</p>
+    
+                        <p class="fw-bold">{{lapLength}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+                <!--Starts 6th card-->
+    
+    
+                 <!--Starts 7th card-->
+    
+               <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-danger d-flex justify-content-center align-items-center flex-column text-white">
+    
+                        <p class="title fw-bold">Car Loan Applications</p>
+    
+                        <p class="fw-bold">{{carLength}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+                <!--Starts 7th card-->
+    
+    
+    
+                  <!--Starts 8th card-->
+    
+               <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-black d-flex justify-content-center align-items-center flex-column text-white">
+    
+                        <p class="title fw-bold">Other Loan Applications</p>
+    
+                        <p class="fw-bold">{{otherLength}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+                <!--Starts 8th card-->
+    
+    
+                
+                  <!--Starts 9th card-->
+    
+               <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-info d-flex justify-content-center align-items-center flex-column text-white">
+    
+                        <p class="title fw-bold">Gold Loan Applications</p>
+    
+                        <p class="fw-bold">{{goldLength}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+                <!--Starts 9th card-->
+    
+    
+               
+    
+    
+    
+    
+            </div><!--Card-Body-->
+    
+        </div><!--Main Card-->
+    
+    </div> <!--Colum12-->
+    
+    </div>
+
+
+
+
+
+
+    <div class="row mt-5">
+
+        <div class="col-12"> 
+        <div class="card shadow">
+    
+            <div class="card-body row gy-2">
+    
+                <!-- 1st -->
+            <div class="col-12 col-md-4">
+    
+                <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-success">
+                <p class="title fw-bold">Total Insurances</p>
+    
+                <p class="fw-bold">{{TotalInsurances}}</p>
+                </div>
+    
+            </div>
+            <!-- 1st -->
+    
+    
+                <!-- 2nd -->
+                <div class="col-12 col-md-4">
+    
+                    <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-primary">
+                    <p class="title fw-bold">All Insurances</p>
+        
+                    <p class="fw-bold">{{AllInsurance}}</p>
+                    </div>
+        
+                </div>
+                <!-- 2nd -->
+    
+    
+                <!-- 3rd -->
+                <div class="col-12 col-md-4">
+    
+                    <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-dark">
+                    <p class="title fw-bold">Life Insurances</p>
+        
+                    <p class="fw-bold">{{LifeInsurance}}</p>
+                    </div>
+        
+                </div>
+                <!-- 3rd -->
+    
+    
+                 <!-- 4rth -->
+                 <div class="col-12 col-md-4">
+    
+                    <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-danger">
+                    <p class="title fw-bold">General Insurances</p>
+        
+                    <p class="fw-bold">{{GeneralInsurnace}}</p>
+                    </div>
+        
+                </div>
+                <!-- 4rth -->
+    
+    
+                <!-- 5th -->
+                <div class="col-12 col-md-4">
+    
+                    <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-dark">
+                    <p class="title fw-bold">Health Insurances</p>
+        
+                    <p class="fw-bold">{{HealthInsurance}}</p>
+                    </div>
+        
+                </div>
+                <!-- 5th -->
+    
+    
+    
+    
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <div class="row mt-5 px-3 mb-5">
+    
+        <div class="card shadow-lg">
+            <div class="card-body">
+            <div class="col-12 bg-success text-white">
+                    <div class="card-body d-flex justify-content-center align-items-center flex-column">
+                        <p class="title fw-bold">Total Credit Cards</p>
+                        <p class="fw-bold">{{creditCard}}</p>
+                    </div>
+              
+    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+
+
+// $('#serachForm2').on('submit', (e)=>{
+   
+//     const url=window.location.href;
+    
+//     if($('#daterange').val()!==''){
+//         const dateValue=$('#daterange').val();
+//         //  fetch(`${url}?date1=${dateValue}`);
+//         console.log("daterange")
+//         window.location.href=`${url}?date1=${dateValue}`;
+
+//     }
+//     });
+
+
+
+        $(document).ready(function () {
+            // Apply daterangepicker to two different IDs at once
+            $('#daterange, #daterange2').daterangepicker({
+                applyButtonClasses: 'btn btn-primary',
+                cancelButtonClasses: 'btn btn-danger',
+                opens: 'right',
+                locale: {
+                    format: 'YYYY-MM-DD',
+                    separator: ' to ', 
+                    cancelLabel: 'Cancel',  
+                    applyLabel: 'OK'
+                },
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                autoUpdateInput: false,  
+                showDropdowns: true,     
+                showWeekNumbers: true,   
+                autoApply: false,        
+            }, function (start, end, label) {
+                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            });
+    
+            // Apply event listeners to both input fields
+            $('#daterange, #daterange2').on('apply.daterangepicker', function (ev, picker) {
+                $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+                console.log("Apply clicked: " + $(this).val());
+            });
+    
+            $('#daterange, #daterange2').on('cancel.daterangepicker', function (ev, picker) {
+                $(this).val('');  // Clear the input field on cancel
+                console.log("Cancel clicked: Input cleared");
+            });
+        });
+    </script>
+    
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

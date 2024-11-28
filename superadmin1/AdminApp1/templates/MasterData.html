@@ -1,0 +1,170 @@
+{% extends 'Dashboard.html' %} {% block content1 %}
+
+
+
+{% block Extrascripts %}
+
+<!-- Moment.js -->
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+<!-- Date Range Picker CSS -->
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+/>
+
+<!-- Date Range Picker JS -->
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
+{% endblock %}
+
+
+
+
+<p class="display-6 text-center fw-bold text-secondary">{{title}}</p>
+<div class="container masterDataWrapper">
+
+   
+
+  <div class="d-flex justify-content-center align-items-center my-4">
+
+    <form action="{% url url %}" method="post" enctype="multipart/form-data" id="myForm">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="dsaFile" class="form-label fw-bold fs-4"
+          >Upload Master Data <span class='text-danger'>*</span></label
+        >
+        <input
+          type="file"
+          class="form-control"
+          id="dsaFile"
+          name="MasterDataFile"
+          required
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+
+  <div class="row mt-5 px-3 mb-5">
+
+    <div class="col-md-6 col-12 mb-3">
+        <form class="d-flex px-3" action="{% url url  %}" method="post" id="serachForm2">
+            {% csrf_token %}
+     <input type="text" name="dateFilter" id="daterange" class="form-control w-100 me-2 dateValue" placeholder="Please Select Your Date Range.." required/>
+    <button class="btn btn-outline-primary" type="submit" id="serachButton2">Search</button>
+    </form>
+    </div>
+</div>
+
+  <div class="row showAllMasterData">
+
+    
+    {% for item in data %}
+    <div class="col-md-4 col-12 my-4">
+      <a
+        href="{{item.MasterDataImage.url}}"
+        class="fw-bold text-decoration-none"
+        ><span class="fw-bold text-capitalize text-primary"
+          >Click here to View the document : View</span
+        ></a>
+        <p>Uploaded Date : {{item.created_at}}</p>
+        <a type="button" class="btn btn-danger  {{item.id}}" href="?deleteId={{item.id}}">Delete</a>
+    </div>
+    {% empty %}
+
+    <p>No records found</p>
+    {% endfor %}
+  </div>
+</div>
+
+
+<!-- <script>
+
+
+
+function addListnersToDelete(){
+    $('.deleteData').on('click',deleteTriggered);
+    
+}
+addListnersToDelete();
+
+    async function deleteTriggered(e){
+        e.preventDefault();
+        const form =document.getElementById('myForm');
+        form.reset();
+        const url=window.location.href;
+        console.log(e.target.classList[3]);
+        // fetch(`${url}?deleteId=${e.target.classList[3]}`)
+
+      const resonse = await fetch(`${url}?deleteId=${e.target.classList[3]}`);
+      const data = await resonse.text();
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(data, "text/html");
+
+      commonCode(doc);
+    }
+
+    function commonCode(doc) {
+
+        document.querySelector(".showAllMasterData").innerHTML =
+      doc.querySelector(".showAllMasterData").innerHTML;
+
+      addListnersToDelete();
+      console.log("comomnCOde");
+
+    }
+
+
+</script> -->
+
+<script>
+
+$(document).ready(function () {
+            // Apply daterangepicker to two different IDs at once
+            $('#daterange').daterangepicker({
+                applyButtonClasses: 'btn btn-primary',
+                cancelButtonClasses: 'btn btn-danger',
+                opens: 'right',
+                locale: {
+                    format: 'YYYY-MM-DD',
+                    separator: ' to ', 
+                    cancelLabel: 'Cancel',  
+                    applyLabel: 'OK'
+                },
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                autoUpdateInput: false,  
+                showDropdowns: true,     
+                showWeekNumbers: true,   
+                autoApply: false,        
+            }, function (start, end, label) {
+                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            });
+    
+            // Apply event listeners to both input fields
+            $('#daterange').on('apply.daterangepicker', function (ev, picker) {
+                $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+                console.log("Apply clicked: " + $(this).val());
+            });
+    
+            $('#daterange').on('cancel.daterangepicker', function (ev, picker) {
+                $(this).val('');  // Clear the input field on cancel
+                console.log("Cancel clicked: Input cleared");
+            });
+        });
+</script>
+
+{% endblock %}

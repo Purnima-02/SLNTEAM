@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA List</title>
+
+    <style>
+      
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .back-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-button" onclick="window.history.back()">Back</button>
+        <h2>DSA List</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>DSA Register ID</th>
+                    <th>Name</th>
+                    <th>Password</th> <!-- Display caution or remove if not required -->
+                    <th>Franchise Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dsa in dsas %}
+                    <tr>
+                        <td>{{ dsa.dsa_registerid }}</td>
+                        <td>{{ dsa.dsa_name }}</td>
+                        <td>{{ dsa.dsa_password }}</td> <!-- Consider hiding or securing password display -->
+                        <td>{{ dsa.franchiseCode }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

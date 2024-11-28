@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .back-button {
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .back-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.history.back()">Back</button>
+    <h2>Sales List</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Register ID</th>
+                <th>Name</th>
+                <th>Password</th>
+                <th>Franchise Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in sales %}
+                <tr>
+                    <td>{{ sale.registerid }}</td>
+                    <td>{{ sale.name }}</td>
+                    <td>{{ sale.password }}</td>
+                    <td>{{ sale.franchiseCode }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

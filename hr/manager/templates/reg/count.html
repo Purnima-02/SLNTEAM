@@ -1,0 +1,176 @@
+{% extends 'reg/dashboard.html' %}
+{% block content %}
+<style>
+    .inside-card {
+        position: relative;
+        transition: transform 0.3s ease-in-out;
+    }
+    .inside-card:hover {
+        transform: translateY(-3px);
+        cursor: pointer;
+    }
+    .card-custom {
+        border-radius: 15px;
+        overflow: hidden;
+        background-color: #f7f7f7;
+        height: 110px;
+    }
+    h1 {
+        text-align: center;
+        margin-top: 30px;
+        font-family: 'Arial', sans-serif;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    h1 span {
+        color: white;
+        text-shadow: -1px 0 orange, 1px 0 orange, 0 -1px orange, 0 1px orange;
+    }
+</style>
+
+<div class="container mt-4">
+    <h3 style="text-align: center;"><b>Total HeadOffice Employees</b></h3>
+    <!-- LOANS APPLIED COUNT -->
+    <h1>
+        <!-- <span>LOANS</span> <span style="color: blue;">APPLIED</span> <span style="color: green;">COUNT</span> -->
+    </h1>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <!-- Total Applications Card -->
+        <div class="col">
+            <div class="card card-custom shadow-lg">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column text-dark" style="background: linear-gradient(135deg, #378ae8 0%, #378ae8 100%);">
+                    <p class="title fw-bold" style="font-size: 1.0rem; color: #fff;">Total Employees</p>
+                    <p class="fw-bold" style="font-size: 1.5rem; color: #fff;">{{ total_employee_count }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Business Loan Applications Card -->
+        <div class="col">
+            <div class="card card-custom shadow-lg">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column text-dark" style="background: linear-gradient(135deg, #6a11cb 0%, #6a11cb 100%);">
+                    <p class="title fw-bold" style="font-size: 1.0rem; color: #fff;">Loans Employee</p>
+                    <p class="fw-bold" style="font-size: 1.5rem; color: #fff;">{{ loan_backend }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Personal Loan Applications Card -->
+        <div class="col">
+            <div class="card card-custom shadow-lg">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column text-dark" style="background: linear-gradient(135deg, #be2791 0%, #be2791 100%);">
+                    <p class="title fw-bold" style="font-size: 1.0rem; color: #fff;">Accounts Employee</p>
+                    <p class="fw-bold" style="font-size: 1.5rem; color: #fff;">{{ accounts_count }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Education Loan Applications Card -->
+        <div class="col">
+            <div class="card card-custom shadow-lg">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column text-dark" style="background: linear-gradient(135deg, #a6d81d 0%, #a6d81d 100%);">
+                    <p class="title fw-bold" style="font-size: 1.0rem; color: #fff;">Customer Support Employees</p>
+                    <p class="fw-bold" style="font-size: 1.5rem; color: #fff;">{{ customer_support_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-custom shadow-lg">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column text-dark" style="background: linear-gradient(135deg, #86ccea 0%, #cacdc3 100%);">
+                    <p class="title fw-bold" style="font-size: 1.0rem; color: #fff;">Sales</p>
+                    <p class="fw-bold" style="font-size: 1.5rem; color: #fff;">{{ ho_sales_count}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-custom shadow-lg">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column text-dark" style="background: linear-gradient(135deg, #a6d81d 0%, #a6d81d 100%);">
+                    <p class="title fw-bold" style="font-size: 1.0rem; color: #fff;">DSA</p>
+                    <p class="fw-bold" style="font-size: 1.5rem; color: #fff;">{{ ho_dsa_count }}</p>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!--------------franchise -->
+        <h1>
+            Franchise Employees
+        </h1>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        <div class="col">
+            <div class="card card-custom shadow-lg">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column text-dark" style="background: linear-gradient(135deg, #378ae8 0%, #378ae8 100%);">
+                    <p class="title fw-bold" style="font-size: 1.0rem; color: #fff;">Total Franchises</p>
+                    <p class="fw-bold" style="font-size: 1.5rem; color: #fff;">{{ franchise_count }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card card-custom shadow-lg">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column text-dark" style="background: linear-gradient(135deg, #6a11cb 0%, #6a11cb 100%);">
+                    <p class="title fw-bold" style="font-size: 1.0rem; color: #fff;">Approved Franchise</p>
+                    <p class="fw-bold" style="font-size: 1.5rem; color: #fff;">{{ approved_franchises_count }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card card-custom shadow-lg">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column text-dark" style="background: linear-gradient(135deg, #be2791 0%, #be2791 100%);">
+                    <p class="title fw-bold" style="font-size: 1.0rem; color: #fff;">Rejected Franchise</p>
+                    <p class="fw-bold" style="font-size: 1.5rem; color: #fff;">{{ rejected_franchises_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-custom shadow-lg">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column text-dark" style="background: linear-gradient(135deg, #6a11cb 0%, #6a11cb 100%);">
+                    <p class="title fw-bold" style="font-size: 1.0rem; color: #fff;">Franchise Sales</p>
+                    <p class="fw-bold" style="font-size: 1.5rem; color: #fff;">{{ sales_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-custom shadow-lg">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column text-dark" style="background: linear-gradient(135deg, #be2791 0%, #be2791 100%);">
+                    <p class="title fw-bold" style="font-size: 1.0rem; color: #fff;">Franchise DSA</p>
+                    <p class="fw-bold" style="font-size: 1.5rem; color: #fff;">{{ dsausers_count }}</p>
+                </div>
+            </div>
+        </div>
+        <!----------------dsa -->
+        <div class="col">
+            <div class="card card-custom shadow-lg">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column text-dark" style="background: linear-gradient(135deg, #378ae8 0%, #378ae8 100%);">
+                    <p class="title fw-bold" style="font-size: 1.0rem; color: #fff;">Total DSA</p>
+                    <p class="fw-bold" style="font-size: 1.5rem; color: #fff;">{{ dsa_count }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card card-custom shadow-lg">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column text-dark" style="background: linear-gradient(135deg, #6a11cb 0%, #6a11cb 100%);">
+                    <p class="title fw-bold" style="font-size: 1.0rem; color: #fff;">Approved DSA</p>
+                    <p class="fw-bold" style="font-size: 1.5rem; color: #fff;">{{ approved_dsa_count }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card card-custom shadow-lg">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column text-dark" style="background: linear-gradient(135deg, #be2791 0%, #be2791 100%);">
+                    <p class="title fw-bold" style="font-size: 1.0rem; color: #fff;">Rejected DSA</p>
+                    <p class="fw-bold" style="font-size: 1.5rem; color: #fff;">{{ rejected_dsa_count }}</p>
+                </div>
+            </div>
+        </div>
+        
+</div>
+
+</div>
+</div>
+</div>
+{% endblock %}

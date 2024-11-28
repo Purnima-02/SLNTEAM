@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Profiles List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5'
+                ],
+                responsive: true
+            });
+        });
+    </script>
+    
+    <script>
+        $(document).ready(function() {
+            // Function to fetch filtered data from the server
+            function fetchData() {
+                const startDate = $('#start_date').val();
+                const endDate = $('#end_date').val();
+                const searchQuery = $('#search').val(); // The new third search bar value
+
+                // Make AJAX call to fetch data
+                $.ajax({
+                    url: window.location.pathname,
+                    data: {
+                        start_date: startDate,
+                        end_date: endDate,
+                        search: searchQuery // Pass the search query
+                    },
+                    success: function(data) {
+                        $('#data-container').html(data);
+                    }
+                });
+            }
+
+            // Trigger fetchData when the user interacts with any of the inputs
+            $('#search, #start_date, #end_date').on('change keyup', function() {
+                fetchData();  // Call fetchData function to update the results
+            });
+        });
+    </script>
+    
+</head>
+<body>
+    <style>
+        .back-button {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        .back-button:hover {
+            color: #007bff; /* Change color on hover */
+        }
+    </style>
+    
+
+    <div class="container">
+       
+        <center><h1>Disbursement Details</h1></center>
+        <a href="javascript:void(0);" onclick="window.history.back();" class="back-button">← Back</a>
+
+        <!-- Search and filter form -->
+        <form method="GET" class="mb-3" id="filter-form" style="float: right;">
+            <div class="form-row">
+                <!-- Start date filter -->
+                <div class="form-group col-md-6">
+                    <label for="start_date">Start Date</label>
+                    <input type="date" class="form-control" name="start_date" id="start_date">
+                </div>
+
+                <!-- End date filter -->
+                <div class="form-group col-md-6">
+                    <label for="end_date">End Date</label>
+                    <input type="date" class="form-control" name="end_date" id="end_date">
+                </div>
+
+                <!-- Third search bar for application_id, franchcode, dsacode, etc. -->
+                <!-- <div class="form-group col-md-6">
+                    <label for="search">Search by Application ID, Franchcode, DSA Code, or Single Date</label>
+                    <input type="text" class="form-control" name="search" id="search" placeholder="Enter search keyword">
+                </div> -->
+            </div>
+        </form>
+    
+    
+        
+
+
+        <!-- Container where the filtered data will be loaded dynamically -->
+        <div id="data-container">
+            {% include 'disbursement_table.html' %}
+        </div>
+    </div>
+    
+</body>
+</html>

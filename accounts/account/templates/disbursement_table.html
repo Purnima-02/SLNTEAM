@@ -1,0 +1,128 @@
+<div class="table-responsive">
+    <table id="example" class="table table-bordered table-striped">    
+        <thead>
+        <tr>
+            <th>DSA Reference ID</th>
+            <th>Branch Reference ID</th>
+            <th>Disbursement Date</th>
+            <th>Application ID</th>
+            <th>Customer Name</th>
+            <th>Franchise Code</th>
+            <th>Dsa Code</th>
+            <th>Disbursement</th>
+            <th>Input Window</th>
+            <th>Output Window</th>
+            <th>Settlement Window</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for detail in page_obj %}
+            <tr>
+                <td>{% if detail.refid %}{{ detail.refid }}{% else %}No Reference ID{% endif %}</td>
+                <td>{% if detail.franchrefid %}{{ detail.franchrefid }}{% else %}No Reference ID{% endif %}</td>
+
+
+                <td>{{ detail.disbursement_date|date:'d-m-y' }}</td>
+                <td>{{ detail.disbursement.application_id }}</td>
+                <td>{{ detail.disbursement.name }}</td>
+                <td>{{ detail.disbursement.fran_code }}</td>
+                <td>{{ detail.disbursement.dsa_code }}</td>
+
+                
+                    <td>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#detailsModal{{ detail.id }}">
+                            Details
+                        </button>
+                    </td>
+                    
+                    
+                    <td>
+                        {% if detail.input_window_exists %}
+                            <a href="{% url 'view_input_detail' detail.disbursement.application_id %}" class="btn btn-primary">View</a>
+                        {% elif detail.disbursement_id %}
+                            <a href="{% url 'input_form' detail.disbursement_id %}" class="btn btn-success">Input</a>
+                        {% else %}
+                            <span>No Disbursement ID</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if detail.output_window_exists %}
+                            <a href="{% url 'view_output_detail' detail.disbursement.application_id %}" class="btn btn-secondary">View</a>
+                        {% elif detail.input_window_exists %}
+                            <a href="{% url 'output_form' detail.disbursement_id %}" class="btn btn-success">Output</a>
+                        {% else %}
+                            <a href="#" class="btn btn-secondary disabled">Output</a>  <!-- Initially Disabled -->
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if detail.settle_window_exists %}
+                            <a href="{% url 'view_settle_detail' detail.disbursement.application_id %}" class="btn btn-danger">View</a>
+                        {% elif detail.output_window_exists %}
+                            <a href="{% url 'settle_form' detail.disbursement_id %}" class="btn btn-success">Settlement</a>
+                            {% else %}
+                            <a href="#" class="btn btn-secondary disabled">Settlement</a>  <!-- Initially Disabled -->
+                        {% endif %}
+                    </td>
+                    
+                    
+                    
+                        
+                    <!-- Modal -->
+                    <div class="modal fade" id="detailsModal{{ detail.id }}" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="detailsModalLabel">Disbursement Details for {{ detail.disbursement.application_id }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Bank Name: {{ detail.bank_nbfc_name }}</p>
+                                    <p>Disbursement Date: {{ detail.disbursement_date }}</p>
+                                    <p>Net Disbursement: {{ detail.net_disbursement }}</p>
+                                    <p>Mobile No: {{ detail.mobile_no }}</p>
+                                    <p>Loan Amount: {{ detail.loan_amount }}</p>
+                                    <p>Location: {{ detail.location }}</p>
+                                    <p>Bank Login ID: {{ detail.bank_loginid }}</p>
+                                    <p>Bank Person Name: {{ detail.bank_person_name }}</p>
+                                    <p>Tenure: {{ detail.tenure }}</p>
+                                    <p>ROI: {{ detail.roi }}</p>
+                                    <p>Insurance: {{ detail.insurance }}</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">No disbursement records found.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="mt-4">
+    {% if page_obj.has_other_pages %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                {% endif %}
+                {% for i in page_obj.paginator.page_range %}
+                    <li class="page-item {% if page_obj.number == i %}active{% endif %}"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+</div>
+
+</div>

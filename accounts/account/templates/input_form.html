@@ -1,0 +1,52 @@
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Input Window Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-3">
+        <style>
+            .back-button {
+                text-decoration: none;
+                color: #333;
+                font-weight: bold;
+            }
+            .back-button:hover {
+                color: #007bff; /* Change color on hover */
+            }
+        </style>
+                    <a href="javascript:void(0);" onclick="window.history.back();" class="back-button">← Back</a>
+
+        <center><h3>Add Input Window for {{ disbursement.application_id }}</h3></center> 
+
+        <div class="row mt-5">
+
+            <div class="col-md-6">
+        
+    
+        <form method="POST">
+
+            {% csrf_token %}
+            {{ form.payout_slab_amount_or_percentage| as_crispy_field }}
+            {{ form.payout_input_date| as_crispy_field }}
+            {{ form.UTR_number| as_crispy_field }}
+            {{ form.credited_bank_name| as_crispy_field }}
+        </div>
+        <div class="col-md-6">
+            {{ form.credited_bank_ac_number| as_crispy_field }}
+            {{ form.TDS| as_crispy_field }}
+            {{ form.net_amount_received | as_crispy_field }}
+            {{ form.net_loan_amount| as_crispy_field }}
+            
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    </div>
+    </div>
+</body>
+</html>

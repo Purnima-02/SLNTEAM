@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        p {
+            margin: 10px 0;
+        }
+        .description {
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1> DSA Ticket Details</h1>
+    <p><strong>Name:</strong> {{ DSA_ticket.name }}</p>
+    <p><strong>Status:</strong> {{ DSA_ticket.status }}</p>
+    <p><strong>Phone Number:</strong> {{ DSA_ticket.phone_number }}</p>
+    <p><strong>Email:</strong> {{ DSA_ticket.email }}</p>
+    <p><strong>Description:</strong> <span class="description">{{ DSA_ticket.description }}</span></p>
+    <a href="{% url 'DSA_update_ticket_status' ticket_id=DSA_ticket.ticket_id %}" style="width: 200px; margin-left: 200px; height: 20px;">Update Ticket Status</a>
+
+</div>
+
+</body>
+</html>

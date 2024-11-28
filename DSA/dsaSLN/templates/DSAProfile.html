@@ -1,0 +1,215 @@
+{% extends 'DsaDashboard.html' %} {% block content1 %}
+
+<style>
+  label {
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+ 
+</style>
+
+<div class="container">
+  <p class="display-5 text-uppercase text-center fw-bolder">MY Profile</p>
+  <form action="" method="post" class="py-5 profileForm">
+    {% for item in data %}
+
+    <label for="dsa_registerid" class="form-label">DSA Id:</label>
+    <input
+      type="text"
+      name="dsa_registerid"
+      id="dsa_registerid"
+      value="{{item.dsa_registerid}}"
+      class="form-control"
+      readonly
+    />
+
+    <label for="franchid" class="form-label">Franchise Id:</label>
+    <input
+      type="text"
+      name="franchid"
+      id="franchid"
+      value="{{item.franchiseCode}}"
+      class="form-control"
+      readonly
+    />
+
+    <label for="dsa_name" class="form-label">DSA Name:</label>
+    <input
+      type="text"
+      name="dsa_name"
+      id="dsa_name"
+      value="{{item.dsa_name}}"
+      class="form-control"
+      required
+    />
+
+    <label for="email" class="form-label">DSA Email:</label>
+    <input
+      type="email"
+      name="email"
+      id="email"
+      value="{{item.email}}"
+      class="form-control"
+      aria-describedby="validationServer03Feedback"
+      required
+    />
+    <div id="validationServer03Feedback" class="invalid-feedback">
+      Please provide a valid Email.
+    </div>
+
+    <label for="mobilenumber" class="form-label">DSA Mobile Number:</label>
+    <input
+      type="text"
+      name="mobilenumber"
+      id="mobilenumber"
+      value="{{item.phone}}"
+      class="form-control"
+      required
+    />
+
+    <label for="pan" class="form-label">DSA PAN Number:</label>
+    <input
+      type="text"
+      name="pan"
+      id="pan"
+      value="{{item.pan}}"
+      class="form-control"
+      readonly
+    />
+
+    <label for="aadhar" class="form-label">DSA Aadhar Number:</label>
+    <input
+      type="text"
+      name="aadhar"
+      id="aadhar"
+      value="{{item.aadhar}}"
+      class="form-control"
+      readonly
+    />
+
+    <label for="profession" class="form-label">DSA Profession:</label>
+    <input
+      type="text"
+      name="profession"
+      id="profession"
+      value="{{item.profession}}"
+      class="form-control"
+      required
+      pattern="[a-zA-Z]+"
+    />
+
+    <label for="city" class="form-label">DSA City Name:</label>
+    <input
+      type="text"
+      name="city"
+      id="city"
+      value="{{item.city}}"
+      class="form-control"
+      required
+      pattern="[a-zA-Z]+"
+    />
+
+    <p class="display-6 my-5 text-center text-primary fw-bold">
+      Bank Details..
+    </p>
+
+    <label for="accnumber" class="form-label">DSA Bank Account Number:</label>
+    <input
+      type="text"
+      name="accnumber"
+      id="accnumber"
+      value="{{item.acc_number}}"
+      class="form-control"
+      readonly
+    />
+
+    <label for="accholdername" class="form-label"
+      >DSA Bank Account Holder Name:</label
+    >
+    <input
+      type="text"
+      name="accholdername"
+      id="accholdername"
+      value="{{item.acc_holder_name}}"
+      class="form-control"
+      readonly
+    />
+
+    <label for="bankname" class="form-label">DSA Bank Name:</label>
+    <input
+      type="text"
+      name="bankname"
+      id="bankname"
+      value="{{item.bank_name}}"
+      class="form-control"
+      readonly
+    />
+
+    <label for="accifsc" class="form-label">DSA Bank Account IFSC Code:</label>
+    <input
+      type="text"
+      name="accifsc"
+      id="accifsc"
+      value="{{item.ifsc_code}}"
+      class="form-control"
+      readonly
+    />
+
+    <label for="accbranch" class="form-label"
+      >DSA Bank Account Branch Name:</label
+    >
+    <input
+      type="text"
+      name="accbranch"
+      id="accbranch"
+      value="{{item.branch_name}}"
+      class="form-control"
+      readonly
+    />
+
+    {% if edited %}
+    <button type="submit" class="btn btn-success mt-3">Edited</button>
+
+    {% else %}
+
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+
+    {% endif %}
+  </form>
+
+  {% endfor %}
+</div>
+
+<script>
+  $(".profileForm").on("submit", () => {
+    const regexCheck = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
+
+    const email = $("#email").val();
+    
+    
+
+    if (!regexCheck.test(email)) {
+      document.getElementById("email").classList.add("is-invalid");
+      return false;
+    } else {
+      document.getElementById("email").classList.remove("is-invalid");
+    }
+  });
+
+  $("#mobilenumber").on("input", (e) => {
+    let { value } = e.target;
+    const maxLength = 10;
+    const regexCheck = /[^0-9]/g;
+
+    value = value.replace(regexCheck, "");
+
+    if (value.length > maxLength) {
+      value = value.slice(0, maxLength);
+    }
+
+    e.target.value = value;
+  });
+</script>
+
+{% endblock %}

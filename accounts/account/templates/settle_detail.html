@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>settlement window Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background color */
+        }
+        .container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #ffffff; /* White background for content */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+        h1, h3 {
+            color: #343a40; /* Darker text color for headings */
+        }
+        .info-title {
+            font-weight: bold; /* Bold titles */
+        }
+        .info-value {
+            margin-bottom: 15px; /* Space between info fields */
+            padding: 10px;
+            border: 1px solid #ced4da; /* Light border around fields */
+            border-radius: 4px; /* Rounded corners for fields */
+            background-color: #f1f1f1; /* Slightly shaded background */
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <style>
+            .back-button {
+                text-decoration: none;
+                color: #333;
+                font-weight: bold;
+            }
+            .back-button:hover {
+                color: #007bff; /* Change color on hover */
+            }
+        </style>
+        
+        <a href="javascript:void(0);" onclick="window.history.back();" class="back-button">← Back</a>
+        <h1 class="text-center">{{ disbursement.application_id }}</h1>
+
+        <!-- <h3 class="mt-4">Disbursement Information</h3> -->
+        <div class="info-value">
+            <span class="info-title">Franchise Code:</span> {{ disbursement.fran_code }}
+        </div>
+        <div class="info-value">
+            <span class="info-title">DSA Code:</span> {{ disbursement.dsa_code }}
+        </div>
+        <!-- <div class="info-value">
+            <span class="info-title">Net Loan Amount:</span> {{ disbursement.net_loan_amount }}
+        </div> -->
+
+        <h3 class="mt-4">Settlement Details</h3>
+        {% if settle_window %}
+        <div class="info-value">
+            <span class="info-title">Settlement Date:</span> {{ settle_window.Settlement_Date|date:'d-m-y' }}
+        </div>
+            
+            <div class="info-value">
+                <span class="info-title"> DSA Amount In Rs:</span> {{ settle_window.dsa_Amount_in_Rs }}
+            </div>
+            <div class="info-value">
+                <span class="info-title">Branch Amount In Rs:</span> {{ settle_window.franch_Amount_in_Rs }}
+            </div>
+            <div class="info-value">
+                <span class="info-title">DR From Bank:</span> {{ settle_window.DR_From_Bank }}
+            </div>
+            <div class="info-value">
+                <span class="info-title">Settlement By:</span> {{ settle_window.Settlement_By }}
+            </div>
+            <div class="info-value">
+                <span class="info-title">UTR Number:</span> {{ settle_window.UTR_Number }}
+            </div>
+            <div class="info-value">
+                <span class="info-title">DR Bank Account Number:</span> {{ settle_window.DR_Bank_Account_Number }}
+            </div>
+
+            {% if dsa_data %}
+            <div class="row">
+                <div class="col-md-6">
+            <h3 style="margin-left: 300px;">DSA Personal Details</h3>
+            <p><strong>DSA Id:</strong> {{ dsa_data.dsa_id }}</p>
+            <p><strong>Name:</strong> {{ dsa_data.name }}</p>
+            <p><strong>Phone Number:</strong> {{ dsa_data.phone }}</p>
+            <p><strong>PAN Number:</strong> {{ dsa_data.pan }}</p>
+            <p><strong>Aadhar Number:</strong> {{ dsa_data.aadhar }}</p>
+            <p><strong>Profession:</strong> {{ dsa_data.profession }}</p>
+            </div>
+            <div class="col-md-6">
+
+            <p><strong>City:</strong> {{ dsa_data.city }}</p>
+            <p><strong>Account Number:</strong> {{ dsa_data.acc_number }}</p>
+            <p><strong>Account Holder Name:</strong> {{ dsa_data.acc_holder_name }}</p>
+            <p><strong>Bank Name:</strong> {{ dsa_data.bank_name }}</p>
+            <p><strong>IFSC Code:</strong> {{ dsa_data.ifsc_code}}</p>
+            <p><strong>BranchName:</strong> {{ dsa_data.branch_name }}</p>
+            </div>
+            </div>
+            {% else %}
+            <p>DSA details not available.</p>
+            {% endif %}
+
+            {% if franchise_data %}
+            <div class="row">
+                <div class="col-md-6">
+            
+            <h3 style="margin-left: 300px;">Branch Personal Details</h3>
+            <p><strong>Franchise Id:</strong> {{ franchise_data.franchise_id }}</p>
+            <p><strong>Name:</strong> {{ franchise_data.name }}</p>
+            <p><strong>Email:</strong> {{ franchise_data.email }}</p>
+
+            <p><strong>Phone Number:</strong> {{ franchise_data.phone }}</p>
+            <p><strong>PAN Number:</strong> {{ franchise_data.pan }}</p>
+            <p><strong>Aadhar Number:</strong> {{ franchise_data.aadhar }}</p>
+            <p><strong>Profession:</strong> {{ franchise_data.profession }}</p>
+            <p><strong>City:</strong> {{ franchise_data.city }}</p>
+            </div>
+            <div class="col-md-6">
+
+            <p><strong>ProfilePicture:</strong> <img src="{{ franchise_data.dsaPhoto }}" height="100px" width="100px"></p>
+            <p><strong>AadharFront:</strong> <img src="{{ franchise_data.aadharFront }}" height="100px" width="100px"></p>
+            <p><strong>AadharBack:</strong> <img src="{{ franchise_data.aadharBack }}" height="100px" width="100px"></p>
+            <p><strong>PanCard:</strong> <img src="{{ franchise_data.panCard }}" height="100px" width="100px"></p>
+            <p><strong>BankDocument:</strong> <img src="{{ franchise_data.bankDocument }}" height="100px" width="100px"></p>
+</div>
+</div>
+            
+            {% else %}
+            <p> Brnach Person details not available.</p>
+            {% endif %}
+            
+        {% else %}
+            <div class="info-value">
+                <p>No settlement window data available for this disbursement.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

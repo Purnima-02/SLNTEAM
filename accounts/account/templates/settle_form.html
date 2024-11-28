@@ -1,0 +1,35 @@
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Settlement Window Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <center><h1>Add settlement Window for {{ disbursement.application_id }}</h1></center
+
+        <div class="row mt-5">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.Settlement_Date| as_crispy_field }}
+            {{ form.UTR_Number| as_crispy_field }}
+            {{ form.dsa_Amount_in_Rs| as_crispy_field }}
+            {{ form.franch_Amount_in_Rs| as_crispy_field }}
+        </div>
+        <div class="col-md-6">   
+
+            {{ form.DR_From_Bank| as_crispy_field }}
+            {{ form.Settlement_By| as_crispy_field }}
+            {{ form.DR_Bank_Account_Number | as_crispy_field }}
+            
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+</div>
+</body>
+</html>
